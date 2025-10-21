@@ -1,0 +1,23 @@
+import smtplib
+import os
+from email.mime.text import MIMEText
+from dotenv import load_dotenv
+
+load_dotenv()
+
+sender = os.getenv("EMAIL_ADDRESS")
+password = os.getenv("EMAIL_PASSWORD")
+receiver = "azizbekrahimjonov8005@gmail.com"
+
+msg = MIMEText("Bu test email Django loyihasi uchun.")
+msg["Subject"] = "Django test"
+msg["From"] = sender
+msg["To"] = receiver
+
+try:
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        server.login(sender, password)
+        server.send_message(msg)
+    print("✅ Email muvaffaqiyatli yuborildi!")
+except Exception as e:
+    print("❌ Xato:", e)
